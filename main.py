@@ -24,7 +24,7 @@ from tensorboardX import SummaryWriter
 parser = argparse.ArgumentParser(description='Sentiment-Analysis')
 parser.add_argument(
 	'--train',
-	default=True,
+	default=False,
 	metavar='T',
 	help='train model (set False to evaluate)')
 parser.add_argument(
@@ -58,13 +58,13 @@ parser.add_argument(
 parser.add_argument(
 	'--workers',
 	type=int,
-	default=4,
+	default=8,
 	metavar='W',
 	help='how many training processes to use')
 parser.add_argument(
 	'--tag',
 	type=str,
-	default='CN',
+	default='EN',
 	metavar='TG',
 	help='language of corpus')
 parser.add_argument(
@@ -82,7 +82,7 @@ parser.add_argument(
 parser.add_argument(
 	'--log-dir',
 	type=str,
-	default='logs/',
+	default='en_all_logs/',
 	metavar='LD',
 	help='directory to store logs')
 parser.add_argument(
@@ -133,7 +133,7 @@ if __name__ == '__main__':
 		optimizer = Adam(shared_model.parameters(), lr=args.lr)
 		criterion = nn.BCELoss()
 		dataset = np.load(
-			os.path.join(Dataset_Dir, '{}_test'.format(Tag_Name[Tag_Dict[args.tag]]), "%s_test_for_train.npz" % Tag_Name[Tag_Dict[args.tag]]))
+			os.path.join(Dataset_Dir, '{}_all'.format(Tag_Name[Tag_Dict[args.tag]]), "%s_all.npz" % Tag_Name[Tag_Dict[args.tag]]))
 		targets = dataset["arr_0"]
 		max_accuracy = 0.0
 

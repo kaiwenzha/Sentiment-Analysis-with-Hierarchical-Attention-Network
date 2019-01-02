@@ -8,7 +8,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 import word_embedding
-from model import SA_NET
+from model import HA_NET
 from test import test
 from evaluate import evaluate
 from torch.optim import Adam
@@ -120,7 +120,7 @@ if __name__ == '__main__':
 	if args.train:
 		# preprocess()
 		writer = SummaryWriter(args.tblog_dir)
-		shared_model = SA_NET(Embedding_Dim[Tag_Dict[args.tag]])
+		shared_model = HA_NET(Embedding_Dim[Tag_Dict[args.tag]])
 		if args.model_load:
 			try:
 				saved_state = torch.load(os.path.join(args.model_dir, 'model_%s.dat' % Tag_Dict[args.tag]))

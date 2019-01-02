@@ -1,8 +1,6 @@
-# coding:utf-8
 from __future__ import print_function, division
 import os
 import numpy as np
-
 try:
 	import xml.etree.cElementTree as ET
 except ImportError:
@@ -11,7 +9,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
-from model import SA_NET
+from model import HA_NET
 from constants import *
 from word_embedding import load_word2vec, embedding_whole
 from preprocess import preprocess_file
@@ -25,19 +23,20 @@ def tagging(txt):
 	return EN
 
 def load_my_model(Tag):
-	model = SA_NET(Embedding_Dim[Tag])
+	model = HA_NET(Embedding_Dim[Tag])
 	saved_state = torch.load(os.path.join('trained_models', 'model_%s.dat' % Tag_Name[Tag]))
 	model.load_state_dict(saved_state)
 	model = model.cuda()
 	return model
 
 def load_model(args, Tag):
-	model = SA_NET(Embedding_Dim[Tag])
-	saved_state = torch.load(os.path.join(args.model_dir, 'test_{}'.format(Tag_Name[Tag]), 'model_%s.dat' % Tag_Name[Tag]))
-	model.load_state_dict(saved_state)
-	if args.gpu:
-		model = model.cuda()
-	return model
+    model = HA_NET(Embedding_Dim[Tag])
+    saved_state = torch.load(
+        os.path.join(args.model_dir, 'test_{}'.format(Tag_Name[Tag]), 'model_%s.dat' % Tag_Name[Tag]))
+    model.load_state_dict(saved_state)
+    if args.gpu:
+        model = model.cuda()
+    return model
 
 def evaluate(args, input_file_path, out_file_path):
 	# print(input_file_path)

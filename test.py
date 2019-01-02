@@ -4,7 +4,7 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 from utils import setup_logger, ensure_shared_grads
-from model import SA_NET
+from model import HA_NET
 from torch.autograd import Variable
 from shared_optim import SharedRMSprop, SharedAdam
 import torch.nn as nn
@@ -21,7 +21,7 @@ def test(args, shared_model, dataset_path):
 	log = setup_logger(0, 'epoch%d_test' % args.epoch, os.path.join(args.log_dir, 'epoch%d_test_log.txt' % args.epoch))
 	log.info(
 		'Test time ' + time.strftime("%Hh %Mm %Ss", time.gmtime(time.time() - start_time)) + ', ' + 'Start testing.')
-	local_model = SA_NET(Embedding_Dim[Tag_Dict[args.tag]])
+	local_model = HA_NET(Embedding_Dim[Tag_Dict[args.tag]])
 	local_model.load_state_dict(shared_model.state_dict())
 	if args.gpu:
 		local_model = local_model.cuda()

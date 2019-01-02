@@ -10,7 +10,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
-from model import SA_NET
+from model import HA_NET
 from constants import *
 from word_embedding import load_word2vec, embedding_whole
 
@@ -21,7 +21,7 @@ def tagging(txt):
     return EN
 
 def load_model(args, Tag):
-    model = SA_NET(Embedding_Dim[Tag])
+    model = HA_NET(Embedding_Dim[Tag])
     saved_state = torch.load(os.path.join(args.model_dir, 'model_%s.dat' % Tag_Name[Tag]))
     model.load_state_dict(saved_state)
     if args.gpu:
@@ -29,7 +29,7 @@ def load_model(args, Tag):
     return model
 
 def load_my_model(Tag):
-    model = SA_NET(Embedding_Dim[Tag])
+    model = HA_NET(Embedding_Dim[Tag])
     saved_state = torch.load(os.path.join('trained_models', 'model_%s.dat' % Tag_Name[Tag]))
     model.load_state_dict(saved_state)
     model = model.cuda()

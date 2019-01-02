@@ -9,5 +9,5 @@ sample_name = {CN: 'cn_sample_data', EN: 'en_sample_data'}
 Embedding_Dim = {CN: 256, EN: 100}
 Sentence_Max_Length = 128
 Test_ratio = 0.1
-LSTM_Hidden_Size = 256
-CNN_Feature_Size = 256
+GRU_Word_Hidden_Size = 200
+GRU_Sentence_Hidden_Size = 600

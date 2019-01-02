@@ -1,0 +1,13 @@
+Word_Embedding_Dir = 'word_embedding'
+Dataset_Dir = 'dataset'
+CN = 0
+EN = 1
+Languages = [CN, EN]
+Tag_Dict = {'CN': CN, 'EN': EN}
+Tag_Name = {CN: 'cn', EN: 'en'}
+sample_name = {CN: 'cn_sample_data', EN: 'en_sample_data'}
+Embedding_Dim = {CN: 256, EN: 100}
+Sentence_Max_Length = 128
+Test_ratio = 0.1
+LSTM_Hidden_Size = 256
+CNN_Feature_Size = 256

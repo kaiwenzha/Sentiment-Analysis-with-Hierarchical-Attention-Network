@@ -43,7 +43,7 @@ class HA_NET(torch.nn.Module): #Hierarchikay Attention Network
 
         num_sentece = inputs_all.size()[0]
         sentences = []
-        for idx_sentence in range(num_sentece):
+        for idx_sentence in range(num_sentece): # generate sentence level representation
             inputs = inputs_all[idx_sentence]
             if not inputs.is_cuda:
                 inputs = inputs.cuda()
@@ -79,7 +79,7 @@ class HA_NET(torch.nn.Module): #Hierarchikay Attention Network
         h_back = Variable(torch.zeros(1, GRU_Sentence_Hidden_Size).cuda())
         h_sentence_forward = Variable(torch.zeros(num_sentece, 1, GRU_Sentence_Hidden_Size).cuda())
         h_sentence_back = Variable(torch.zeros(num_sentece, 1, GRU_Sentence_Hidden_Size).cuda())
-        for i in range(num_sentece):
+        for i in range(num_sentece): #generate document level representation
             h_forward = self.gru_sentence(sentences[i], h_forward)
             h_back = self.gru_sentence(sentences[num_sentece-1-i], h_back)
             h_sentence_forward[i] = h_forward

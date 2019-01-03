@@ -24,7 +24,7 @@ from tensorboardX import SummaryWriter
 parser = argparse.ArgumentParser(description='Sentiment-Analysis')
 parser.add_argument(
 	'--train',
-	default=False,
+	default=True,
 	metavar='T',
 	help='train model (set False to evaluate)')
 parser.add_argument(
@@ -34,7 +34,7 @@ parser.add_argument(
 	help='using GPU')
 parser.add_argument(
 	'--gpu-id',
-	default=1,
+	default=0,
 	metavar='GID',
 	type=int,
 	help='GPU ID')
@@ -133,7 +133,7 @@ if __name__ == '__main__':
 		optimizer = Adam(shared_model.parameters(), lr=args.lr)
 		criterion = nn.BCELoss()
 		dataset = np.load(
-			os.path.join(Dataset_Dir, '{}_all'.format(Tag_Name[Tag_Dict[args.tag]]), "%s_all.npz" % Tag_Name[Tag_Dict[args.tag]]))
+			os.path.join(Dataset_Dir, "%s_train.npz" % Tag_Name[Tag_Dict[args.tag]]))
 		targets = dataset["arr_0"]
 		max_accuracy = 0.0
 
@@ -189,7 +189,7 @@ if __name__ == '__main__':
 
 			state_to_save = shared_model.state_dict()
 			torch.save(state_to_save, os.path.join(args.model_dir, 'epoch%d.dat' % args.epoch))
-			accuracy = test(args, shared_model, os.path.join(Dataset_Dir, '{}_test'.format(Tag_Name[Tag_Dict[args.tag]]), "%s_test_for_train.npz" % Tag_Name[Tag_Dict[args.tag]]))
+			accuracy = test(args, shared_model, os.path.join(Dataset_Dir,  "%s_test.npz" % Tag_Name[Tag_Dict[args.tag]]))
 			# print('Overall accuracy = %0.2f%%' % (100 * accuracy))
 			if accuracy > max_accuracy:
 				max_accuracy = accuracy

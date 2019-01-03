@@ -75,7 +75,7 @@ def test(args, shared_model, dataset_path):
 	Recall_pos = TP / (TP + FN) if TP + FN != 0 else 0
 	Recall_neg = TN / (TN + FP) if TN + FP != 0 else 0
 	F1_pos = 2 * Precision_pos * Recall_pos / (Precision_pos + Recall_pos)
-	F1_neg = 2 * Precision_neg * Recall_neg / (Precision_neg + Recall_neg)
+	# F1_neg = 2 * Precision_neg * Recall_neg / (Precision_neg + Recall_neg)
 
 	log.info('Precision = %0.2f%%' % (100 * Precision_pos) + '  Recall = %0.2f%%' % (100 * Recall_pos) + '  F1 = %0.2f%%' % (100 * F1_pos))
 	log.info('Overall accuracy = %0.2f%%' % (100 * correct_cnt / targets.shape[0]))

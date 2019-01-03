@@ -6,7 +6,7 @@ from torch.autograd import Variable
 from utils import norm_col_init, weights_init
 from constants import *
 
-class HA_NET(torch.nn.Module): #Hierarchikay Attention Network
+class HA_NET(torch.nn.Module): #Hierarchical Attention Network
     def __init__(self, embedding_length):
         super(HA_NET, self).__init__()
 

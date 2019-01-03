@@ -1,5 +1,4 @@
 ﻿# coding:utf-8
-import os
 import gensim
 import numpy as np
 import nltk
@@ -7,11 +6,10 @@ from nltk import sent_tokenize, word_tokenize
 import jieba
 import re
 from constants import *
-from gensim.models.keyedvectors import KeyedVectors
 from pyhanlp import *
 
-if not os.path.exists(os.path.join(os.environ['HOME'], 'nltk_data/tokenizers/punkt')): # for linux
-# if not os.path.exists(os.path.join(os.environ['HOMEPATH'], 'nltk_data/tokenizers/punkt')): # for windows
+# if not os.path.exists(os.path.join(os.environ['HOME'], 'nltk_data/tokenizers/punkt')): # for linux
+if not os.path.exists(os.path.join(os.environ['HOMEPATH'], 'nltk_data/tokenizers/punkt')): # for windows
     nltk.download('punkt')
 
 

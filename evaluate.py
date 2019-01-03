@@ -1,17 +1,14 @@
 from __future__ import print_function, division
 import os
-import numpy as np
 try:
 	import xml.etree.cElementTree as ET
 except ImportError:
 	import xml.etree.ElementTree as ET
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 from torch.autograd import Variable
 from model import HA_NET
 from constants import *
-from word_embedding import load_word2vec, embedding_whole
+from word_embedding import load_word2vec, embedding
 from preprocess import preprocess_file
 
 
@@ -53,7 +50,7 @@ def evaluate(args, input_file_path, out_file_path):
 			txt = txt[:-1]
 		# tag = tagging(txt)
 		# if len(txt) != 0:
-		mat = embedding_whole(language_model, txt, Tag_Dict[args.tag])
+		mat = embedding(language_model, txt, Tag_Dict[args.tag])
 		data = Variable(torch.from_numpy(mat))
 		if args.gpu:
 			data = data.cuda()
@@ -77,7 +74,7 @@ if __name__ == "__main__":
 	s = input()
 	while s != 'exit':
 		tag = tagging(s)
-		mat = embedding_whole(language_model[tag], s, tag)
+		mat = embedding(language_model[tag], s, tag)
 		data = Variable(torch.from_numpy(mat)).cuda()
 		output = model[tag].forward(data)
 		if output.data.cpu().numpy()[0] < 0.5:

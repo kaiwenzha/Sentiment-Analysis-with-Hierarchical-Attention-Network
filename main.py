@@ -1,24 +1,18 @@
 from __future__ import print_function, division
 import os
 import argparse
-import sys
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 from torch.autograd import Variable
-import word_embedding
 from model import HA_NET
 from test import test
 from evaluate import evaluate
 from torch.optim import Adam
-from shared_optim import SharedRMSprop, SharedAdam
 import time
-import copy
 import random
 from constants import *
-from utils import setup_logger, ensure_shared_grads
-from preprocess import preprocess
+from utils import setup_logger
 from tensorboardX import SummaryWriter
 
 parser = argparse.ArgumentParser(description='Sentiment-Analysis')
@@ -64,7 +58,7 @@ parser.add_argument(
 parser.add_argument(
 	'--tag',
 	type=str,
-	default='EN',
+	default='CN',
 	metavar='TG',
 	help='language of corpus')
 parser.add_argument(

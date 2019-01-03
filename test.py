@@ -1,18 +1,11 @@
 from __future__ import print_function, division
 import os
 import torch
-import torch.nn.functional as F
-import torch.optim as optim
-from utils import setup_logger, ensure_shared_grads
+from utils import setup_logger
 from model import HA_NET
 from torch.autograd import Variable
-from shared_optim import SharedRMSprop, SharedAdam
-import torch.nn as nn
 import time
-import random
 import numpy as np
-import logging
-import copy
 from constants import *
 
 
@@ -42,14 +35,6 @@ def test(args, shared_model, dataset_path):
 		target = int(targets[idx])
 		output = local_model(data)
 
-		'''
-		prob = F.softmax(output)
-		ans = prob.max(1)[1].data
-		if args.gpu:
-			ans = ans.cpu()
-		ans = ans.numpy()[0]
-		if ans == target:
-		'''
 		if (output.data.cpu().numpy()[0] < 0.5 and target == 0) or (
 				output.data.cpu().numpy()[0] >= 0.5 and target == 1):
 			correct_cnt += 1

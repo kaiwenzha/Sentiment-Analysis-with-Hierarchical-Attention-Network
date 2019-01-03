@@ -96,7 +96,6 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 	torch.cuda.set_device(args.gpu_id)
 	torch.set_default_tensor_type('torch.DoubleTensor')
-	# mp.set_start_method('spawn')
 	torch.manual_seed(args.seed)
 	random.seed(args.seed)
 	if not os.path.exists(args.model_dir):
@@ -159,7 +158,6 @@ if __name__ == '__main__':
 				if (output.data.cpu().numpy()[0] < 0.5 and targets[idx] == 0) or (
 						output.data.cpu().numpy()[0] >= 0.5 and targets[idx] == 1):
 					correct_cnt += 1
-				# output = F.log_softmax(output)
 
 				optimizer.zero_grad()
 				loss = criterion(output, target)
@@ -175,7 +173,6 @@ if __name__ == '__main__':
 
 				if (i + 1) % 100 == 0:
 					writer.add_scalar('data/accuracy', correct_cnt / 100, (args.epoch - 1) * targets.shape[0] + i)
-					# print(output)
 					log.info('accuracy: %d%%' % correct_cnt + '    Train time ' + time.strftime("%Hh %Mm %Ss", time.gmtime(
 						time.time() - start_time)) + ', ' + 'Mean loss: %0.4f' % (losses.data.numpy() / 100))
 					correct_cnt = 0
@@ -193,10 +190,4 @@ if __name__ == '__main__':
 			for param_group in optimizer.param_groups:
 				param_group['lr'] = args.lr
 	else:
-		# shared_model = SA_NET(Embedding_Dim[Tag_Dict[args.tag]])
-		# saved_state = torch.load(os.path.join(args.model_dir, 'model_1.dat'))
-		# shared_model.load_state_dict(saved_state)
-		# accuracy = test(args, shared_model, os.path.join(Dataset_Dir, sample_name[Tag_Dict[args.tag]],
-		#                                                  "%s_sample_test_20p.npz" % Tag_Name[Tag_Dict[args.tag]]))
-		# print('{} Accuracy: {}'.format(args.tag, accuracy))
 		evaluate(args, os.path.join(Dataset_Dir, '{}_task2input.xml'.format(Tag_Name[Tag_Dict[args.tag]])), os.path.join(Dataset_Dir, '{}_task2output.xml'.format(Tag_Name[Tag_Dict[args.tag]])))

@@ -33,27 +33,6 @@ def preprocess_file(fname, tag):
         for line in lines:
             f_out.write(line + '\n')
 
-def all_div_cvt_to_npz(tag):
-	model = load_word2vec(tag)
-
-	xmltree_n = ET.parse(os.path.join(Dataset_Dir, Tag_Name[tag], 'test.negative.xml'))
-	xmlroot_n = xmltree_n.getroot()
-	xmltree_p = ET.parse(os.path.join(Dataset_Dir, Tag_Name[tag], 'test.positive.xml'))
-	xmlroot_p = xmltree_p.getroot()
-
-	embedding_mapping = lambda x: embedding(model, x.text, tag)
-	embeddings_n = list(map(embedding_mapping, xmlroot_n))
-	embeddings_p = list(map(embedding_mapping, xmlroot_p))
-
-	trainset_n = list(filter(lambda x:x.shape[0] != 0, embeddings_n))
-	trainset_p = list(filter(lambda x:x.shape[0] != 0, embeddings_p))
-
-	trainset_data = trainset_n + trainset_p
-	trainset_target = np.array([0] * len(trainset_n) + [1] * len(trainset_p))
-	print("{} Train Set Length: {}".format(Tag_Name[tag], len(trainset_target)))
-	np.savez(os.path.join(Dataset_Dir, '{}_all'.format(Tag_Name[tag]), "%s_all.npz" % Tag_Name[tag]), trainset_target,
-	         *trainset_data)
-
 def div_cvt_to_npz(tag):
     model = load_word2vec(tag)
     xmltree_n = ET.parse(os.path.join(Dataset_Dir, Tag_Name[tag], "%s_negative.xml" % Tag_Name[tag]))
@@ -101,13 +80,6 @@ def div_preprocess():
             div_cvt_to_npz(lan)
         else:
             print("Embedding of %s corpus detected." % str.upper(Tag_Name[lan]))
-
-def all_div_preprocess():
-	for lan in Languages:
-		preprocess_file(os.path.join(Dataset_Dir, Tag_Name[lan], 'test.negative.xml'), lan)
-		preprocess_file(os.path.join(Dataset_Dir, Tag_Name[lan], 'test.positive.xml'), lan)
-		print("Prepare %s ALL set." % str.upper(Tag_Name[lan]))
-		all_div_cvt_to_npz(lan)
 
 if __name__ == '__main__':
     div_preprocess()

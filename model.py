@@ -42,6 +42,7 @@ class HA_NET(torch.nn.Module): #Hierarchikay Attention Network
         # inputs_all: (num_sentence, sentence_length, dim) Tensor
 
         num_sentece = inputs_all.size()[0]
+        dim_embedding = inputs_all.size()[2]
         sentences = []
         for idx_sentence in range(num_sentece): # generate sentence level representation
             inputs = inputs_all[idx_sentence]
@@ -98,4 +99,4 @@ class HA_NET(torch.nn.Module): #Hierarchikay Attention Network
 
 if __name__ == '__main__':
     c = HA_NET(256).cuda()
-    print(c.forward(Variable(torch.ones(5, 30, 256)).cuda()))
+    print(c.forward(Variable(torch.ones(5, 40, 256)).cuda()))

@@ -76,6 +76,26 @@ def all_cvt_to_npz(tag):
 	np.savez(os.path.join(Dataset_Dir, '{}_all'.format(Tag_Name[tag]), "%s_all.npz" % Tag_Name[tag]), trainset_target,
 	         *trainset_data)
 
+def all_div_cvt_to_npz(tag):
+	model = load_word2vec(tag)
+
+	xmltree_n = ET.parse(os.path.join(Dataset_Dir, '{}_all'.format(Tag_Name[tag]), 'all.negative.xml'))
+	xmlroot_n = xmltree_n.getroot()
+	xmltree_p = ET.parse(os.path.join(Dataset_Dir, '{}_all'.format(Tag_Name[tag]), 'all.positive.xml'))
+	xmlroot_p = xmltree_p.getroot()
+
+	embedding_mapping = lambda x: embedding(model, x.text, tag)
+	embeddings_n = list(map(embedding_mapping, xmlroot_n))
+	embeddings_p = list(map(embedding_mapping, xmlroot_p))
+
+	trainset_n = list(filter(lambda x:x.shape[0] != 0, embeddings_n))
+	trainset_p = list(filter(lambda x:x.shape[0] != 0, embeddings_p))
+
+	trainset_data = trainset_n + trainset_p
+	trainset_target = np.array([0] * len(trainset_n) + [1] * len(trainset_p))
+	print("{} Train Set Length: {}".format(Tag_Name[tag], len(trainset_target)))
+	np.savez(os.path.join(Dataset_Dir, '{}_all'.format(Tag_Name[tag]), "%s_all.npz" % Tag_Name[tag]), trainset_target,
+	         *trainset_data)
 
 def cvt_to_npz(tag):
     model = load_word2vec(tag)
@@ -172,5 +192,12 @@ def all_preprocess():
 		print("Prepare %s ALL set." % str.upper(Tag_Name[lan]))
 		all_cvt_to_npz(lan)
 
+def all_div_preprocess():
+	for lan in Languages:
+		preprocess_file(os.path.join(Dataset_Dir, '{}_all'.format(Tag_Name[lan]), 'all.negative.xml'), lan)
+		preprocess_file(os.path.join(Dataset_Dir, '{}_all'.format(Tag_Name[lan]), 'all.positive.xml'), lan)
+		print("Prepare %s ALL set." % str.upper(Tag_Name[lan]))
+		all_div_cvt_to_npz(lan)
+
 if __name__ == '__main__':
-	all_preprocess()
+	all_div_preprocess()

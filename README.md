@@ -75,4 +75,4 @@ The dataset contains **34639 Chinese reviews** and **13385 English reviews** on 
 
 ## Contributors
 
-This repo is maintained by [Han Xue](https://github.com/xiaoxiaoxh), [Kaiwen Zha](https://github.com/KaiwenZha), [Qibing Ren](https://github.com/renqibing), and [Hongkai Zheng](https://github.com/devzhk).
+This repo is maintained by [Kaiwen Zha](https://github.com/KaiwenZha), [Han Xue](https://github.com/xiaoxiaoxh), [Qibing Ren](https://github.com/renqibing), and [Hongkai Zheng](https://github.com/devzhk).
